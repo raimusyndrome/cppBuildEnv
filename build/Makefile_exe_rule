@@ -1,0 +1,24 @@
+$(TARGET): $(OBJS) $(BINDIR)
+	@rm -f $(OBJDIR)/*.gcda
+	$(CPP) -o $(TARGET) $(CPPFLAGS) $(OBJS) $(LIBS)
+
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o : %.$(SRCEXT) $(OBJDIR)
+	$(CPP) $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+
+$(CMNLIB) : 
+	@make -C $(LIBSRCDIR) $(BUILDTYPE)
+
+DEPENDS = $(patsubst %.$(SRCEXT),$(OBJDIR)/%.d,$(notdir $(SRC)))
+$(OBJDIR)/%.d: %.$(SRCEXT) $(OBJDIR)
+	@set -e; $(CPP) -MM $(CPPFLAGS) $(INCLUDES) $< \
+	| sed 's/\($*\)\.o[ :]*/$(subst /,\/,$(OBJDIR))\/\1.o $(subst /,\/,$@) : /g' > $@; \
+	[ -s $@ ] || rm -f $@
+
+-include $(DEPENDS)
+

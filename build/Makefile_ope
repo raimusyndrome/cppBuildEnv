@@ -1,0 +1,44 @@
+.PHONY: debug release run test report gcov clean tag count dox indent
+
+SRCDIR=src
+TESTDIR=test
+
+all:
+	@make -C $(SRCDIR)
+
+debug:
+	@make -C $(SRCDIR) debug
+
+release:
+	@make -C $(SRCDIR) release
+
+run:
+	@make -C $(SRCDIR) run
+
+test:
+	@make -C $(TESTDIR)
+	@make -C $(TESTDIR) run
+
+report:
+	@make -C $(TESTDIR)
+	@make -C $(TESTDIR) report
+
+gcov:
+	@make -C $(SRCDIR) gcov
+
+clean:
+	@make -C $(SRCDIR) clean
+
+tag:
+	@make -C $(SRCDIR) tag
+	@make -C $(TESTDIR) tag
+
+count:
+	@make -C $(SRCDIR) count
+
+dox:
+	@make -C $(SRCDIR) dox
+
+indent:
+	@make -C $(SRCDIR) indent
+

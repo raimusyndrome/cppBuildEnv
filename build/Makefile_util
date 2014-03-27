@@ -1,0 +1,48 @@
+
+.PHONY: debug release
+
+# デバッグ用の実行ファイル名を変える場合は以下のコメントを外す
+# debug: TARGET=$(TARGET_DBG) 
+debug: CPPFLAGS=$(CPPFLAGS_DBG) 
+debug: LIBS=$(LIBS_DBG) 
+debug: BUILDTYPE=debug
+debug: $(TARGET)
+
+release: CPPFLAGS=$(CPPFLAGS_REL) 
+release: LIBS=$(LIBS_REL) 
+release: BUILDTYPE=release
+release: $(TARGET)
+
+.PHONY: run gcov clean tag count dox indent 
+
+run:
+	cd $(BINDIR)
+	$(TARGET)
+
+gcov:
+	@gcov ${OBJDIR}/*.gcda -o ${OBJDIR}
+	@mkdir -p ../gcov
+	@mv *.gcov ../gcov
+
+clean:
+	rm -rf $(TARGET) $(OBJDIR) core\.*
+	rm -f *.o *.gch *.plist
+
+tag:
+	ctags --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ $(SRC)
+
+count:
+	@mkdir -p ../count
+	@CodeCount -dir . -outdir ../count
+	@CodeCount -dir . -outdir ../count -ascii
+	@echo -e "\n\nfilename\tSLOC\tPLOC" | expand -t 32,40,48
+	@cat ../count/C_CPP_outfile.csv | grep "CODE,\." | sed -e "s/^.*,\([0-9]*\),\([0-9]*\),CODE,\.\/\(.*\)$\/\3\t\1\t\2/" | sort | expand -t 32,40,48
+
+dox:
+	@cd ..;doxygen
+
+indent:
+	@uncrustify -c ../../uncrustify.cfg --replace *.{h,cpp}
+	@mv *unc-backup* ${OBJDIR}
+
+

@@ -1,0 +1,22 @@
+$(TARGET): $(OBJS) $(BINDIR)
+	@rm -f $(OBJDIR)/*.gcda
+	ar r $(TARGET) $(OBJS)
+	ranlib $(TARGET)
+
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o : %.$(SRCEXT) $(OBJDIR)
+	$(CPP) $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+
+DEPENDS = $(patsubst %.$(SRCEXT),$(OBJDIR)/%.d,$(notdir $(SRC)))
+$(OBJDIR)/%.d: %.$(SRCEXT) $(OBJDIR)
+	@set -e; $(CPP) -MM $(CPPFLAGS) $(INCLUDES) $< \
+	| sed 's/\($*\)\.o[ :]*/$(subst /,\/,$(OBJDIR))\/\1.o $(subst /,\/,$@) : /g' > $@; \
+	[ -s $@ ] || rm -f $@
+
+-include $(DEPENDS)
+

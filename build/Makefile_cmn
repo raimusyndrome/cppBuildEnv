@@ -1,0 +1,50 @@
+# name definition 
+LIBDIRNAME=Lib
+LIBNAME=libcommon.a
+# 拡張子の指定
+SRCEXT=cpp
+HEADEXT=h
+
+# command definition
+CPP = g++
+
+# directory definition
+SRCDIR=../src
+OBJDIR=../obj
+BINDIR=../bin
+TESTDIR=../test
+LIBBASEDIR=../../$(LIBDIRNAME)
+LIBSRCDIR=$(LIBBASEDIR)/src
+LIBOBJDIR=$(LIBBASEDIR)/obj
+CMNLIB=$(LIBBASEDIR)/bin/$(LIBNAME)
+
+# flag definition
+GCOVFLAGS=-fprofile-arcs -ftest-coverage
+# デバッグビルド時のフラグ（プロジェクト毎の設定）
+CPPFLAGS_DBG = -g -fPIC -Wall -Wextra -Wundef -m64 -DGLOG -D_DEBUG $(GCOVFLAGS)
+# リリースビルド時のフラグ（プロジェクト毎の設定）
+CPPFLAGS_REL = -O3 -Wall -m64 -Werror -msse4 -mfpmath=sse -fno-strict-aliasing -DNDEBUG
+# テストコードビルド時のフラグ
+TESTFLAGS=$(shell pkg-config --cflags cppcutter)
+
+INCLUDES = -I. -I$(SRCDIR) -I$(LIBSRCDIR)
+
+# library link definition
+# リンクが必須のライブラリ（プロジェクト毎の設定）
+BASELIBS = -lpthread -lm -lrt
+# デバッグ用のライブラリ
+DEBUGLIBS = -lgcov -lglog
+# テストコードのビルドに必要なライブラリ
+TESTLIBS = -lgtest -lgtest_main -lcutter
+
+# デバッグビルド時のリンクするライブラリ
+LIBS_DBG = $(BASELIBS) $(DEBUGLIBS)
+# リリースビルド時のリンクするライブラリ
+LIBS_REL = $(BASELIBS)
+# テストコードビルド時のリンクするライブラリ
+LIBS_TST = $(BASELIBS) $(DEBUGLIBS) $(TESTLIBS)
+
+# source code
+BUILDSRC=$(shell ls *.$(SRCEXT))
+LIBSRC=$(shell ls $(LIBSRCDIR)/*.$(SRCEXT) )
+
