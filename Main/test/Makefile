@@ -1,4 +1,4 @@
--include ../../build/Makefile_cmn
+-include ../../build/Makefile.common
 
 # exec name
 TARGET=$(BINDIR)/test
@@ -19,8 +19,8 @@ MAINSRC=main.cpp
 OBJS = $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(filter-out $(MAINSRC),$(notdir $(SRC))))
 OBJS += $(CMNLIB)
 
--include ../../build/Makefile_exe_rule
--include ../../build/Makefile_util
+-include ../../build/Makefile.exe_rule
+-include ../../build/Makefile.util
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.$(SRCEXT) $(OBJDIR)
 	$(CPP) $(CPPFLAGS) $(INCLUDES) -c -o $@ $<

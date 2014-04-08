@@ -1,4 +1,4 @@
--include ../../build/Makefile_cmn
+-include ../../build/Makefile.common
 
 # exec name
 TARGET=$(BINDIR)/sample
@@ -21,8 +21,8 @@ SRC=$(BUILDSRC)
 OBJS = $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(notdir $(SRC)))
 OBJS += $(CMNLIB)
 
--include ../../build/Makefile_exe_rule
--include ../../build/Makefile_util
+-include ../../build/Makefile.exe_rule
+-include ../../build/Makefile.util
 
 # 追加のルールは（必要であれば）これより下に記述する
 
