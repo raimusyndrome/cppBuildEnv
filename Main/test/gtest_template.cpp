@@ -59,16 +59,30 @@ TEST(TestCategory, Decimal){
 class SampleTestCase : public ::testing::Test
 {
 protected:
-	// 各テストケースのの実行前に実施する処理を記述します。
+	// このテストケースの実行前に実施する処理を記述します。
+	static void SetUpTestCase() {
+		// テストケースの前処理
+		cout << "テストケースの前処理" << endl;
+	}
+	// このテストケースの実行後に実施する処理を記述します。
+	static void TearDownTestCase(){
+		// テストケースの後処理
+		cout << "テストケースの後処理" << endl;
+	}
+	// 各テストの実行前に実施する処理を記述します。
 	virtual void SetUp() {
 		// テストの前処理
-		cout << "前処理" << endl;
+		cout << "テストの前処理" << endl;
+		testInfo = ::testing::UnitTest::GetInstance()->current_test_info();
+		cout << testInfo->test_case_name() << " : " << testInfo->name() << endl;
 	}
-	// 各テストケースのの実行後に実施する処理を記述します。
+	// 各テストの実行後に実施する処理を記述します。
 	virtual void TearDown(){
 		// テストの後処理
-		cout << "後処理" << endl;
+		cout << "テストの後処理" << endl;
 	}
+	
+	const ::testing::TestInfo* testInfo;
 };
 
 // 1番目のパラメータはフィクスチャクラスと同じ名前にする
