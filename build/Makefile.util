@@ -13,7 +13,7 @@ release: LIBS=$(LIBS_REL)
 release: BUILDTYPE=release
 release: $(TARGET)
 
-.PHONY: run gcov clean tag count dox indent 
+.PHONY: run gcov clean allclean tag count dox indent 
 
 run:
 	cd $(BINDIR)
@@ -27,6 +27,9 @@ gcov:
 clean:
 	rm -rf $(TARGET) $(OBJDIR) core\.*
 	rm -f *.o *.gch *.plist
+
+allclean: clean
+	@make -C $(LIBBASEDIR) clean
 
 tag:
 	ctags --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ $(SRC)
