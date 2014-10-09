@@ -20,14 +20,18 @@ CMNLIB=$(LIBBASEDIR)/bin/$(LIBNAME)
 
 # flag definition
 GCOVFLAGS=-fprofile-arcs -ftest-coverage
+X64FLAGS=-m64
+WARNFLAGS_DBG=-Wall -Wextra -Wundef
+WARNFLAGS_REL=-Wall -Werror
 # デバッグビルド時のフラグ（プロジェクト毎の設定）
-CPPFLAGS_DBG = -g -fPIC -Wall -Wextra -Wundef -m64 -DGLOG -D_DEBUG $(GCOVFLAGS)
+CXXFLAGS_DBG = -g -fPIC -DGLOG -D_DEBUG $(WARNFLAGS_DBG) $(X64FLAGS) $(GCOVFLAGS)
 # リリースビルド時のフラグ（プロジェクト毎の設定）
-CPPFLAGS_REL = -O3 -Wall -m64 -Werror -msse4 -mfpmath=sse -fno-strict-aliasing -DNDEBUG
+CXXFLAGS_REL = -O3 -msse4 -mfpmath=sse -fno-strict-aliasing -DNDEBUG $(WARNFLAGS_REL) $(X64FLAGS)
 # テストコードビルド時のフラグ
 TESTFLAGS=$(shell pkg-config --cflags cppcutter)
 
 INCLUDES = -I. -I$(SRCDIR) -I$(LIBSRCDIR)
+LDPATH=#-L. -L/lib -L/usr/lib
 
 # library link definition
 # リンクが必須のライブラリ（プロジェクト毎の設定）

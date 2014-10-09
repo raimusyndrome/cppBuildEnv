@@ -1,4 +1,4 @@
-.PHONY: debug release run test report gcov clean tag count dox indent
+.PHONY: debug release static run test report gcov clean tag count dox indent
 
 SRCDIR=src
 TESTDIR=test
@@ -11,6 +11,9 @@ debug:
 
 release:
 	@make -C $(SRCDIR) release
+
+static:
+	@make -C $(SRCDIR) static
 
 run:
 	@make -C $(SRCDIR) run

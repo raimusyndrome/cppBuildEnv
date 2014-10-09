@@ -22,7 +22,7 @@ OBJS += $(CMNLIB)
 -include ../../build/Makefile.exe_rule
 -include ../../build/Makefile.util
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.$(SRCEXT) $(OBJDIR)
+$(OBJDIR)/%.o : $(SRCDIR)/%.$(SRCEXT)
 	$(CPP) $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
 
 .PHONY: report list

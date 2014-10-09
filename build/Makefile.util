@@ -1,17 +1,22 @@
 
-.PHONY: debug release
+.PHONY: debug release static
 
 # デバッグ用の実行ファイル名を変える場合は以下のコメントを外す
 # debug: TARGET=$(TARGET_DBG) 
-debug: CPPFLAGS=$(CPPFLAGS_DBG) 
+debug: CXXFLAGS=$(CXXFLAGS_DBG) 
 debug: LIBS=$(LIBS_DBG) 
 debug: BUILDTYPE=debug
 debug: $(TARGET)
 
-release: CPPFLAGS=$(CPPFLAGS_REL) 
+release: CXXFLAGS=$(CXXFLAGS_REL) 
 release: LIBS=$(LIBS_REL) 
 release: BUILDTYPE=release
 release: $(TARGET)
+
+static: CXXFLAGS=$(CXXFLAGS_REL) -static 
+static: LIBS=$(LIBS_REL) 
+static: BUILDTYPE=release
+static: $(TARGET)
 
 .PHONY: run gcov clean allclean tag count dox indent 
 

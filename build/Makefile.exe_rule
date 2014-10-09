@@ -1,6 +1,6 @@
-$(TARGET): $(OBJS) $(BINDIR)
+$(TARGET): $(OBJDIR) $(BINDIR) $(OBJS)
 	@rm -f $(OBJDIR)/*.gcda
-	$(CPP) -o $(TARGET) $(CPPFLAGS) $(OBJS) $(LIBS)
+	$(CPP) -o $(TARGET) $(CXXFLAGS) $(LDPATH) $(OBJS) $(LIBS)
 
 $(BINDIR):
 	mkdir -p $(BINDIR)
@@ -8,15 +8,15 @@ $(BINDIR):
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/%.o : %.$(SRCEXT) $(OBJDIR)
-	$(CPP) $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+$(OBJDIR)/%.o : %.$(SRCEXT) 
+	$(CPP) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
 $(CMNLIB) : 
 	@make -C $(LIBSRCDIR) $(BUILDTYPE)
 
 DEPENDS = $(patsubst %.$(SRCEXT),$(OBJDIR)/%.d,$(notdir $(SRC)))
-$(OBJDIR)/%.d: %.$(SRCEXT) $(OBJDIR)
-	@set -e; $(CPP) -MM $(CPPFLAGS) $(INCLUDES) $< \
+$(OBJDIR)/%.d: %.$(SRCEXT)
+	@set -e; $(CPP) -MM $(CXXFLAGS) $(INCLUDES) $< \
 	| sed 's/\($*\)\.o[ :]*/$(subst /,\/,$(OBJDIR))\/\1.o $(subst /,\/,$@) : /g' > $@; \
 	[ -s $@ ] || rm -f $@
 
