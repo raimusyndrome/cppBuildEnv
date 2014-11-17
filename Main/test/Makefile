@@ -5,7 +5,7 @@ TARGET=$(BINDIR)/test
 TARGET_DBG=$(BINDIR)/dbg_test
 
 # build flag
-CPPFLAGS=$(CPPFLAGS_DBG) $(TESTFLAGS)
+CXXFLAGS=$(CXXFLAGS_DBG) $(TESTFLAGS)
 # library for build 
 LIBS=$(LIBS_TST)
 
@@ -23,7 +23,7 @@ OBJS += $(CMNLIB)
 -include ../../build/Makefile.util
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.$(SRCEXT)
-	$(CPP) $(CPPFLAGS) $(INCLUDES) -c -o $@ $<
+	$(CPP) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
 .PHONY: report list
 

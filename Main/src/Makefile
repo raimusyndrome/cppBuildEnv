@@ -6,9 +6,9 @@ TARGET_DBG=$(BINDIR)/dbg_sample
 
 # build flag
 # 個別に追加のフラグが必要な場合はCPPFLAGS_DBG,CPPFLAGS_RELの両方に追加すること
-# CPPFLAGS_DBG+=
-# CPPFLAGS_REL+=
-CPPFLAGS=$(CPPFLAGS_DBG)
+# CXXFLAGS_DBG+=
+# CXXFLAGS_REL+=
+CXXFLAGS=$(CXXFLAGS_DBG)
 # library for build 
 # 個別に追加のライブラリが必要な場合はLIBS_DBG,LIBS_RELの両方に追加すること
 # LIBS_DBG+=
